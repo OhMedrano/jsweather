@@ -11,3 +11,7 @@ Does have react in the package.json incase you want to mess around with that.
 
 
 CSS, SCSS, SASS available, just include them into your index or js file.
+
+
+
+Malick suxxxxx dicks 
