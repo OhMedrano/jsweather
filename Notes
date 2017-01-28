@@ -1,0 +1,140 @@
+
+
+function Starfield() {
+	this.fps = 40;
+	this.canvas = null;
+	this.width = 0; 
+	this.height = 0;
+	this.minVelocity = this.fps/6; 
+	this.maxVelocity = this.fps;
+	this.stars = 50;
+	this.intervalId = 0;
+};
+
+
+
+Starfield.prototype = {
+	start: function(){
+		var stars = [];
+		var thisStars = this.stars;
+		for(var i=0; i < this.stars;i++){
+			
+			if(i%3==0) {
+					stars[i] = new Star(Math.random()*this.width,100,Math.random()*3+5,
+					this.fps);
+				} else {
+					stars[i] = new Star(Math.random()*this.width,200,Math.random()*3+10,
+					(Math.random()*(this.maxVelocity - this.minVelocity))+this.minVelocity);
+				}
+		}
+		this.stars = stars;
+
+		var self = this;
+
+		this.intervalId = setInterval(function(){
+			self.update();
+			self.draw();
+		},1000 / this.fps);
+
+
+		/*
+				
+	//	Create the stars.
+	var stars = [];
+	for(var i=0; i<this.stars; i++) {
+		stars[i] = new Star(Math.random()*this.width, Math.random()*this.height, Math.random()*3+1,
+		 (Math.random()*(this.maxVelocity - this.minVelocity))+this.minVelocity);
+	}
+	this.stars = stars;
+
+	var self = this;
+	//	Start the timer.
+	this.intervalId = setInterval(function() {
+		self.update();
+		self.draw();	
+}, 1000 / this.fps);
+		
+
+		*/
+	},
+	stop: function(){
+		clearInterval(this.intervalId);
+	},
+	update: function(){
+		var dt = 1 / this.fps;
+
+		for(var i=0;i<this.stars.length;i++){
+			var star = this.stars[i];
+			star.x += dt * star.velocity;
+
+			if(star.x > this.width) {
+				if(i%2==0 && i%3 == 0) {
+					this.stars[i] = new Star(0,100,Math.random()*3+5,
+					(Math.random()*(this.maxVelocity - this.minVelocity))+this.minVelocity);
+				} else {
+					this.stars[i] = new Star(0,200,Math.random()*3+10,
+					(Math.random()*(this.maxVelocity - this.minVelocity))+this.minVelocity);
+				}
+			}
+		}
+	},
+	draw: function(){
+		var ctx = this.canvas.getContext('2d');
+
+
+		ctx.fillStyle = '#000000';
+		ctx.fillRect(75,0,this.width,300);
+
+		
+
+		
+
+		
+		for(var i=0;i<this.stars.length;i++){
+			var star = this.stars[i];
+			if(i%5==0 ){
+				ctx.fillStyle = '#00FF00';
+			} /*else if(i%9==0) {
+				ctx.fillStyle = '#FF0000';
+
+			}*/else {
+				ctx.fillStyle = '#ffffff';
+			}
+			ctx.fillRect(star.x,star.y,star.size,star.size);
+		}
+	},
+	initialize: function(div){
+		var self = this;
+
+		this.containerDiv = div;
+		self.width = window.innerWidth;
+		self.height = window.innerHeight;
+
+		window.addEventListener('resize',function(event){
+			self.width = window.innerWidth;
+			self.height = window.innerHeight;
+			self.canvas.width = self.width;
+			self.canvas.height = self.height;
+			self.draw();
+		});
+
+		var canvas = document.createElement('canvas');
+		div.appendChild(canvas);
+		this.canvas = canvas;
+		this.canvas.width = this.width;
+		this.canvas.height = this.height;
+	}
+};
+
+function Star(x,y,size,velocity){
+	this.x = x;
+	this.y = y;
+	this.size = size;
+	this.velocity = velocity;
+}
+
+ var container = document.getElementById('app');
+        var starfield = new Starfield();
+        starfield.initialize(container);
+        starfield.start();
+

@@ -1,0 +1,79 @@
+Cloud / City scape 
+
+var x = 0;
+var body = document.getElementById('app');
+var test = document.createElement('div');
+var cloud1 = document.createElement('div');
+	cloud1.style.cssText = 'background:url(../images/cloud3.png)no-repeat;background-size:100% 100%;height:10vh;width:15vw;position;absolute;z-index:1;position:relative;top:30%;';
+var cityScape = document.createElement('div');
+	cityScape.style.cssText = 'background:url(../images/nycskyline.png)no-repeat;background-size:100% 100%;height:90vh;width:100vw;position:absolute;z-index:2;';
+test.append(cloud1,cityScape);
+test.style.cssText = 'background:url(../images/day-sky.png)no-repeat;background-size:100% 100%;background-position:center;height:100vh;width:100vw;position:absolute;z-index:0;top:0;';
+
+function Cloud(x,y,z,size,velocity){
+	this.x = x;
+	this.y = y;
+	this.z = z;
+	this.size = size;
+	this.speed = velocity;
+	this.cloudImg = ['../images/cloud3.png','../images/clouds4.png'];
+
+};
+
+function cloudCover(initialHeight){
+	this.fps = 60; /*
+		60 frames per second. 
+
+		This will give it a smooth transition when animating it. 
+		
+		Min for animation is either 16 or 18, 32 gives you a TV feel.
+
+
+
+	*/
+	this.x = 0; // Initial Clouds start with 0 on the x axis
+	this.y = initialHeight; // Doing this for parallax. 
+	this.z = null; // Same for parallax
+	this.maxSpeed = this.fps; //Tied to the fps value. Cannot be greater than fps
+	this.minSpeed = this.fps/3; //Currently at 20 fps for minSpeed
+	this.clouds = 30; //30 clouds will be rendered on the screen at one time.
+	this.intervalId = 0; //Each cloud will get its own id value.
+	
+};
+
+cloudCover.prototype = {
+	start:function(){
+		var clouds = [];
+		var thisClouds = this.clouds;
+		for(var i=0;i<this.clouds;i++){
+			if(i%3==0){
+				clouds[i] = new Cloud()
+			}
+		}
+	}
+
+
+
+};
+
+body.append(test);
+
+setInterval(function(){
+	x+=1;
+	var y = x + '%';
+	cloud1.style.left = y;
+	if(x%2==0){
+		
+		cloud1.style.top = "32%";
+	} else {
+		cloud1.style.bottom = "28%";
+	}
+	if(x > 100){
+		x = 0;
+		cloud1.style.left = "-10%";
+	}
+},12000/60)
+
+
+console.log(window.innerHeight + ' x ' + window.innerWidth);
+

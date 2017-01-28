@@ -1,5 +1,105 @@
+@font-face{
+	font-family: RegWebPixel;
+	src:url(../css/fonts/webpixel_bitmap_regular.otf);
+}
+
+@font-face{
+	font-family: BoldWebPixel;
+	src:url(../css/fonts/webpixel_bitmap_bold.otf);
+}
+
+
+
 body {
-	background:green;
+	
+padding:0;
+
+}
+
+#app{
+	  height:98vh;width:100vw;
+            position: absolute;
+            left: 0px;
+            top: 10;
+            padding:0;
+            z-index:-1;
+
+            canvas {
+            	height:350px;
+            	position:relative;
+            	top:25%;
+            	padding:0;
+            }
+           
+}
+#app2 {
+	position: absolute;
+top: 40%;
+z-index:3;
+height:50vh;
+		canvas {
+			height:350px;
+		}
+}
+
+#cityScape{
+	position:absolute;
+	z-index:4;
+	height:98vh;
+	width:100vw;
+}
+* {
+
+	padding:0;
+}
+
+#fore-ground {
+	height:100vh;
+	border:11px solid black;
+	position:absolute;
+	top:0;
+	z-index:5;
+	padding:0;
+
+		#building{
+			height:100%;
+			
+			float:right;
+
+	padding:0;		
+	#balcony {
+		height:25%;
+		float:right;
+		position:relative;
+		top:74.95%
+	}
+	#message-window {
+		height:50%;
+		float:right;
+		position:relative;
+		font-size:4em;
+		font-family:RegWebPixel;
+		#location-name {
+			.boldText{
+				font-family:BoldWebPixel;
+			}
+			font-family:RegWebPixel;
+		}
+		#main-weather {
+			padding:1%;
+			font-size:0.50em;
+			
+			
+		}
+		#time {
+			font-family:BoldWebPixel;
+			
+			position:relative;
+			
 
 
+
+		}
+	}	
+		}
 }
