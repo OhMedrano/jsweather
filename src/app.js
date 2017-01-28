@@ -1,8 +1,36 @@
-'use strict';
+
+/*
+
+
+			NOT IN USE 
+
+
+			APP2.JS IS IN USE
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+
+
+
+
+
+
+
+/*'use strict';
 
 import '../css/style.scss';
 
-
+*/
 /*
 var localData = {
 	locallon: localStorage.getItem('locallon') || null,
