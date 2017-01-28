@@ -1,17 +1,13 @@
-
-This is a boilerplate for someone who wants to use 
-pure javascript with webpack as the task runner.
+ This is made on the boilerplate I made for myself 
 
 
-Simply git clone, and npm install. 
-Does have react in the package.json incase you want to mess around with that.
+ 		Javascript Weather 
 
 
-"Npm start" to start webpack's dev server on localhost:8080 
-
-
-CSS, SCSS, SASS available, just include them into your index or js file.
+ I wanted to learn more on how to write in javascript. This whole project just depends on js files, no frameworks aside from jquery for some bootstrap stuff.
 
 
 
-Malick suxxxxx dicks 
+ All graphics are done by me. 
+
+ 
