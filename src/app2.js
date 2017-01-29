@@ -186,37 +186,53 @@ Starfield.prototype = {
 	},
 	draw: function(){
 		var ctx = this.canvas.getContext('2d');
-
+		var stars = this.stars;
 
 		
 		ctx.clearRect(0,0,this.width,300);
 
 /*		ctx.fillStyle = '#ffffff';*/
+		var cloudTwo = new Image;
+		cloudTwo.src = '../images/clouds4.png';
+		var cloudOne = new Image;
+		cloudOne.src = '../images/cloud3.png';
+		cloudOne.addEventListener('load',function(){
+			for(var i=0;i<stars.length;i++){
+				var star = stars[i];
+				if(i%5==0){
+					ctx.drawImage(cloudTwo,star.x,star.y,100, 100);
+				} else {
+					ctx.drawImage(cloudOne,star.x,star.y,200,200);
+				}
+			}
 
+
+
+		});	
+	
 		
 
 		
-
-		
-		for(var i=0;i<this.stars.length;i++){
+		/*for(var i=0;i<this.stars.length;i++){
 			var star = this.stars[i];
 			if(i%5==0 ){
 			;
-			} /*else if(i%9==0) {
+			}*/ /*else if(i%9==0) {
 				ctx.fillStyle = '#FF0000';
 
-			}*/else {
+			}*/
+			/*else {
 				ctx.fillStyle = '#ffffff;';
 			}
-			
+			*/
 			/*
 				I wanna add some bouncyness to the clouds. Here's where I do it. 
 
 			*/
-
+/*
 			ctx.fillRect(star.x,(Math.random()+star.y),(star.size*4),(star.size*2));
 			ctx.fillStyle = "white";
-		}
+		}*/
 	},
 	initialize: function(div,height){
 		var self = this;
@@ -290,7 +306,7 @@ function timeClock(){
 	*/
 	if(hours > 12 ){
 		hours = hours%12;
-		console.log(hours);
+		
 		document.getElementById('app').style.cssText = 'background:url(../images/night-sky.png)no-repeat;background-size:99% 99%;background-position:center;';
 
 		clock.innerHTML = hours+":"+mins+":"+secs+" "+ampm[1];
@@ -327,6 +343,9 @@ function mainWeather(weather){
 
 	return mainDiv;
 
+}
+function weatherDesc(weather){
+	let desc = weather.description;
 }
 		/*Background*/
  var app = new divCreate('app');
