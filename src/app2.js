@@ -71,25 +71,71 @@ LocalData.prototype = {
 	}
 }
 
+function Cloudfield(cloudVolume,cloudMaxSpeed){
+	this.canvas = null;
+	this.width = 0;
+	this.height = 0;
+	this.fps = 120;
+	this.maxSpeed = cloudMaxSpeed;
+	this.minSpeed = cloudMaxSpeed/6;
+	this.cloudVol = cloudVolume || 20;
+
+
+};
 
 
 
+
+function preloadPictures(pictureUrls, callback) {
+    var i,
+        j,
+        loaded = 0;
+    var returnArray = [];
+    for (i = 0, j = pictureUrls.length; i < j; i++) {
+        (function (img, src) {
+            img.onload = function () {                               
+                if (++loaded == pictureUrls.length && callback) {
+                    callback();
+                }
+            };
+
+            // Use the following callback methods to debug
+            // in case of an unexpected behavior.
+            img.onerror = function () {};
+            img.onabort = function () {};
+
+            img.src = src;
+            console.log(img);
+            returnArray.push(img);
+        } (new Image(), pictureUrls[i]));
+    }
+
+    return returnArray;
+}
+
+var clouds = new preloadPictures(['../images/cloud3.png','../images/clouds4.png'],console.log('loading clouds'));
 
 
 
 /*Clouds rendering through Canvas here*/
-function Starfield(starNum) {
+function Starfield(starNum,imgSrc) {
 	this.fps = 120;
 	this.canvas = null;
 	this.width = 0; 
 	this.height = 0;
 	this.minVelocity = this.fps/6; 
 	this.maxVelocity = this.fps;
-	this.stars = starNum || 20;
+	this.stars = 100;
 	this.intervalId = 0;
+	
 };
 
-
+window.requestAnimFrame =(function(callback){
+	return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+		function(callback){
+			window.setTimeout(callback,1000/60);
+		};
+})();
 
 Starfield.prototype = {
 	start: function(far){
@@ -108,16 +154,18 @@ Starfield.prototype = {
 				}
 			}
 		} else {
-				for(var i=0; i < this.stars;i++){
 			
-			if(i%3==0) {
+			for(var i=0; i < this.stars;i++){
+			
+				if(i%3==0) {
 					stars[i] = new Star(Math.random()*this.width,100,Math.random()*3+5,
 					this.fps);
-				} else {
+					} 
+					else {
 					stars[i] = new Star(Math.random()*this.width,100,Math.random()*3+10,
 					(Math.random()*(this.maxVelocity - this.minVelocity))+this.minVelocity,false);
 				}
-		}
+			}
 		}
 
 
@@ -127,7 +175,7 @@ Starfield.prototype = {
 
 		this.intervalId = setInterval(function(){
 			self.update();
-			self.draw();
+			self.animate();
 		},1000 / this.fps);
 
 
@@ -167,72 +215,46 @@ Starfield.prototype = {
 					this.stars[i] = new Star(0,100,Math.random()*3+5,
 					(Math.random()*(this.maxVelocity - this.minVelocity))+this.minVelocity,true);
 				} else {
-					this.stars[i] = new Star(0,200,Math.random()*3+15,
+					this.stars[i] = new Star(0,200,Math.random()*3+50,
 					(Math.random()*(this.maxVelocity - this.minVelocity))+this.minVelocity,true);
 				}
 				}
 			} else {
 				if(star.x > this.width) {
 				if(i%2==0 && i%3 == 0) {
-					this.stars[i] = new Star(0,100,Math.random()*2+2,
+					this.stars[i] = new Star(0,100,Math.random()*2+20,
 					(Math.random()*(this.maxVelocity - this.minVelocity))+this.minVelocity,false);
 				} else {
-					this.stars[i] = new Star(0,100,Math.random()*5+2,
+					this.stars[i] = new Star(0,100,Math.random()*5+40,
 					(Math.random()*(this.maxVelocity - this.minVelocity))+this.minVelocity,false);
 				}
 			}
 			}
 		}
 	},
-	draw: function(){
+	animate: function(cloud,startTime){
 		var ctx = this.canvas.getContext('2d');
 		var stars = this.stars;
 
-		
-		ctx.clearRect(0,0,this.width,300);
 
-/*		ctx.fillStyle = '#ffffff';*/
-		var cloudTwo = new Image;
-		cloudTwo.src = '../images/clouds4.png';
-		var cloudOne = new Image;
-		cloudOne.src = '../images/cloud3.png';
-		cloudOne.addEventListener('load',function(){
-			for(var i=0;i<stars.length;i++){
-				var star = stars[i];
-				if(i%5==0){
-					ctx.drawImage(cloudTwo,star.x,star.y,100, 100);
-				} else {
-					ctx.drawImage(cloudOne,star.x,star.y,200,200);
-				}
+		
+		
+		for(var i=0; i<stars.length;i++){
+			var star = stars[i];
+			ctx.clearRect(0,0,300,ctx.width);
+			if(i%5==0){
+				
+				
+				ctx.drawImage(clouds[0],star.x,star.y,200,100);
+
+			} else {
+				ctx.clearRect(star.x,star.y,200,200);
 			}
-
-
-
-		});	
-	
+			
+		}
 		
 
-		
-		/*for(var i=0;i<this.stars.length;i++){
-			var star = this.stars[i];
-			if(i%5==0 ){
-			;
-			}*/ /*else if(i%9==0) {
-				ctx.fillStyle = '#FF0000';
 
-			}*/
-			/*else {
-				ctx.fillStyle = '#ffffff;';
-			}
-			*/
-			/*
-				I wanna add some bouncyness to the clouds. Here's where I do it. 
-
-			*/
-/*
-			ctx.fillRect(star.x,(Math.random()+star.y),(star.size*4),(star.size*2));
-			ctx.fillStyle = "white";
-		}*/
 	},
 	initialize: function(div,height){
 		var self = this;
@@ -246,14 +268,14 @@ Starfield.prototype = {
 			self.height = window.innerHeight;
 			self.canvas.width = self.width;
 			self.canvas.height = self.height;
-			self.draw();
+			self.animate();
 		});
 
 		var canvas = document.createElement('canvas');
 		div.appendChild(canvas);
 		this.canvas = canvas;
 		this.canvas.width = this.width;
-		this.canvas.height = this.height / 2;
+		this.canvas.height = this.height/2;
 	}
 };
 
@@ -326,7 +348,7 @@ function timeClock(){
 
 
 function locationName(name,id){
- 	let loc = `<p><span class="boldText">Location : </span>${name}</p>`;
+ 	let loc = `<p><span class="boldText">${name}</span></p>`;
  	let div = new divCreate(id);
  	div.innerHTML = loc;
  	div.setAttribute('class','col-md-6 col-lg-6');
@@ -367,10 +389,10 @@ function weatherDesc(weather){
  building.setAttribute('class','col-md-6 col-lg-6');
 
  var balcony = new divCreate('balcony');
- balcony.setAttribute('class','col-md-12 col-lg-12');
+ balcony.setAttribute('class','col-md-8 col-lg-8');
 
  var messageWindow = new divCreate('message-window');
- messageWindow.setAttribute('class','col-md-12 col-lg-12');
+ messageWindow.setAttribute('class','col-md-8 col-lg-8');
 
  var weatherText = new divCreate('weather-text');
  weatherText.setAttribute('class','col-md-12 col-lg-12');

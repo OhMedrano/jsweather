@@ -35,4 +35,6 @@
  		the exact term I'm looking for, I'll go ask around on stack or 
  		reddit.
 
- 		
+
+ 		Another problem is dealing with webpack, it's having a weird time 
+ 		bundling the scss. 

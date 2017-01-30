@@ -1,7 +1,7 @@
 module.exports = {
 	entry:{
 		js : "./src/app2.js",
-		css: "./css/style.scss",
+		css: "./css/style.css",
 		
 	},
 
@@ -26,7 +26,7 @@ module.exports = {
 				loader: 'babel-loader'
 			},
 			{
-				test: /\.scss$/,
+				test: /\.(scss|css)$/,
 				loader:"style-loader!css-loader!sass-loader"
 			},
 
