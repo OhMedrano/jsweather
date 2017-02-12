@@ -238,12 +238,12 @@ Starfield.prototype = {
 
 
 		
-		
+			
 		for(var i=0; i<stars.length;i++){
 			var star = stars[i];
-			ctx.clearRect(0,0,300,ctx.width);
+		
 			if(i%5==0){
-				
+				ctx.clearRect(0,0,ctx.height,ctx.width);
 				
 				ctx.drawImage(clouds[0],star.x,star.y,200,100);
 
